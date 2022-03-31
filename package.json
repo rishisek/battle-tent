@@ -1,0 +1,13 @@
+{
+  "name": "battle-tent",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/rishisek/battle-tent.git",
+  "author": {
+    "name": "Rishi Sekhar",
+    "email": "rishi.sek@gmail.com"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
