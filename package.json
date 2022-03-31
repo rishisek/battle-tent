@@ -7,6 +7,11 @@
     "name": "Rishi Sekhar",
     "email": "rishi.sek@gmail.com"
   },
+  "scripts": {
+    "build": "tsc --project ./",
+    "start:dev": "nodemon src/server.ts",
+    "start:prod": "node dist/server.js"
+  },
   "dependencies": {
     "express": "^4.17.3"
   },
