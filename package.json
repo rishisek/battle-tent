@@ -1,7 +1,7 @@
 {
   "name": "battle-tent",
   "version": "0.1.0",
-  "main": "src/index.js",
+  "main": "index.js",
   "repository": "https://github.com/rishisek/battle-tent.git",
   "author": {
     "name": "Rishi Sekhar",
