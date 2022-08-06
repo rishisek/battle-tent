@@ -1,0 +1,100 @@
+{
+  "team": [
+    {
+      "name": "Skuntank",
+      "species": "Skuntank",
+      "gender": "",
+      "shiny": false,
+      "gigantamax": false,
+      "level": 85,
+      "moves": [
+        "toxic",
+        "fireblast",
+        "suckerpunch",
+        "poisonjab"
+      ],
+      "ability": "Aftermath",
+      "evs": {
+        "hp": 85,
+        "atk": 85,
+        "def": 85,
+        "spa": 85,
+        "spd": 85,
+        "spe": 85
+      },
+      "ivs": {
+        "hp": 31,
+        "atk": 31,
+        "def": 31,
+        "spa": 31,
+        "spd": 31,
+        "spe": 31
+      },
+      "item": "Focus Sash"
+    },
+    {
+      "name": "Corviknight",
+      "species": "Corviknight",
+      "gender": "",
+      "shiny": false,
+      "gigantamax": false,
+      "level": 78,
+      "moves": [
+        "roost",
+        "defog",
+        "bravebird",
+        "bodypress"
+      ],
+      "ability": "Mirror Armor",
+      "evs": {
+        "hp": 85,
+        "atk": 85,
+        "def": 85,
+        "spa": 85,
+        "spd": 85,
+        "spe": 85
+      },
+      "ivs": {
+        "hp": 31,
+        "atk": 31,
+        "def": 31,
+        "spa": 31,
+        "spd": 31,
+        "spe": 31
+      },
+      "item": "Leftovers"
+    },
+    {
+      "name": "Tauros",
+      "species": "Tauros",
+      "gender": "M",
+      "shiny": false,
+      "gigantamax": false,
+      "level": 82,
+      "moves": [
+        "closecombat",
+        "throatchop",
+        "zenheadbutt",
+        "bodyslam"
+      ],
+      "ability": "Sheer Force",
+      "evs": {
+        "hp": 85,
+        "atk": 85,
+        "def": 85,
+        "spa": 85,
+        "spd": 85,
+        "spe": 85
+      },
+      "ivs": {
+        "hp": 31,
+        "atk": 31,
+        "def": 31,
+        "spa": 31,
+        "spd": 31,
+        "spe": 31
+      },
+      "item": "Life Orb"
+    }
+  ]
+}
