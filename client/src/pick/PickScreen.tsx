@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import TeamPicker from "pick/TeamPicker";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { ready } from "./pickSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 
@@ -16,11 +16,6 @@ const Wrapper = styled.div`
 function PickScreen() {
   let isReady = useAppSelector((state) => state.pick.ready);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (isReady) {
-      console.log("MOVING");
-    }
-  }, [isReady]);
   return (
     <Wrapper>
       <TeamPicker />

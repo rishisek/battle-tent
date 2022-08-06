@@ -43,16 +43,14 @@ function TeamPicker() {
   }, []);
   useEffect(() => {
     if (ready) {
-      console.log("READY");
       let team = pokeSets.filter((set, index) => selecteds[index]);
       if (team.length === 3) {
         axios.post("/pick", team).then((res) => console.log(res.data));
       } else {
-        console.log("UNREADY");
         dispatch(unready());
       }
     }
-  }, [ready, pokeSets, selecteds]);
+  }, [ready, pokeSets, selecteds, dispatch]);
   const select = (index: number) => {
     let selected = selecteds[index];
     if (!selected && selCount === 3) return;
