@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { SocketContext } from "context/socket";
 
 const Wrapper = styled.div`
   text-align: center;
@@ -14,6 +17,13 @@ const Wrapper = styled.div`
 `;
 
 function App() {
+  const socket = useContext(SocketContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!socket.connected) {
+      navigate("/", { replace: true });
+    }
+  }, [socket]);
   return (
     <Wrapper>
       <Outlet />

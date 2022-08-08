@@ -3,6 +3,7 @@ import TeamPicker from "pick/TeamPicker";
 import { useEffect } from "react";
 import { ready } from "./pickSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   text-align: center;
@@ -16,6 +17,12 @@ const Wrapper = styled.div`
 function PickScreen() {
   let isReady = useAppSelector((state) => state.pick.ready);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isReady) {
+      navigate("/play", { replace: true });
+    }
+  }, [isReady, navigate]);
   return (
     <Wrapper>
       <TeamPicker />

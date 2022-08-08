@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Teams, TeamValidator } from "@pkmn/sim";
 import { TeamGenerators } from "@pkmn/randoms";
@@ -7,6 +7,7 @@ import { PokemonSet } from "@pkmn/sets";
 import PokemonInfo from "./PokemonInfo";
 import { unready } from "./pickSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { SocketContext } from "context/socket";
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,6 +38,8 @@ function TeamPicker() {
 
   const dispatch = useAppDispatch();
 
+  const socket = useContext(SocketContext);
+
   useEffect(() => {
     Teams.setGeneratorFactory(TeamGenerators);
     setPokeSets(Teams.generate("gen7randombattle"));
@@ -45,7 +48,9 @@ function TeamPicker() {
     if (ready) {
       let team = pokeSets.filter((set, index) => selecteds[index]);
       if (team.length === 3) {
-        axios.post("/pick", team).then((res) => console.log(res.data));
+        socket.emit("pick", team, (status: number) => {
+          if (status !== 200) dispatch(unready());
+        });
       } else {
         dispatch(unready());
       }

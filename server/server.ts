@@ -1,4 +1,5 @@
-import app from "./app";
+import server from "./app";
 
-app.listen(5000);
-console.log("UP");
+server.listen(5000, () => {
+  console.log("UP");
+});
