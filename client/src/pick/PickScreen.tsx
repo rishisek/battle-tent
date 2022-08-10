@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import TeamPicker from "pick/TeamPicker";
 import { useEffect } from "react";
-import { ready } from "./pickSlice";
+import { confirm } from "./pickSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +26,7 @@ function PickScreen() {
   return (
     <Wrapper>
       <TeamPicker />
-      <button onClick={() => dispatch(ready())}>Confirm</button>
+      <button onClick={() => dispatch(confirm())}>Confirm</button>
     </Wrapper>
   );
 }

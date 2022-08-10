@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { Teams, TeamValidator } from "@pkmn/sim";
 import { TeamGenerators } from "@pkmn/randoms";
 import { PokemonSet } from "@pkmn/sets";
 import PokemonInfo from "./PokemonInfo";
-import { unready } from "./pickSlice";
+import { pick, ready } from "./pickSlice";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { SocketContext } from "context/socket";
 
@@ -25,7 +24,7 @@ const PokeList = styled.div`
 
 function TeamPicker() {
   let [pokeSets, setPokeSets] = useState<PokemonSet[]>([]);
-  let ready = useAppSelector((state) => state.pick.ready);
+  let confirm = useAppSelector((state) => state.pick.confirm);
   let [selecteds, setSelecteds] = useState([
     false,
     false,
@@ -45,17 +44,16 @@ function TeamPicker() {
     setPokeSets(Teams.generate("gen7randombattle"));
   }, []);
   useEffect(() => {
-    if (ready) {
+    if (confirm) {
       let team = pokeSets.filter((set, index) => selecteds[index]);
       if (team.length === 3) {
-        socket.emit("pick", team, (status: number) => {
-          if (status !== 200) dispatch(unready());
-        });
+        socket.emit("pick", team);
+        dispatch(ready());
       } else {
-        dispatch(unready());
+        dispatch(pick());
       }
     }
-  }, [ready, pokeSets, selecteds, dispatch]);
+  }, [confirm, pokeSets, selecteds, dispatch, socket]);
   const select = (index: number) => {
     let selected = selecteds[index];
     if (!selected && selCount === 3) return;
