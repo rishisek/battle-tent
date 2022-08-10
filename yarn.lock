@@ -999,6 +999,13 @@
   resolved "https://registry.npmjs.org/@nicolo-ribaudo/chokidar-2/-/chokidar-2-2.1.8-no-fsevents.3.tgz"
   integrity sha512-s88O1aVtXftvp5bCPB7WnmXc5IwOZZ7YPuwNPt+GtOOXpPvad1LfbmjYv+qII7zP6RU2QGnqve27dnLycEnyEQ==
 
+"@pkmn/protocol@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@pkmn/protocol/-/protocol-0.4.3.tgz#025dfde44d4c49b4abf4ae41bc19e51f6388bd7c"
+  integrity sha512-oJe0pqf7Z/H3vxDTjFr6T4VAVaUtMEuQ+3cOWIMb1b8zfGp/esGRdNyt/GGe/+pbF0OSJXIYH7aioKE4zNh9Dg==
+  dependencies:
+    "@pkmn/types" "^2.0.0"
+
 "@pkmn/sets@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@pkmn/sets/-/sets-3.1.0.tgz#04a9f1b77a2acd0cbe10ea0009023af77075f3e5"
@@ -1019,10 +1026,18 @@
   resolved "https://registry.yarnpkg.com/@pkmn/streams/-/streams-1.0.0.tgz#0b9d1189462e7cbcb430fbc53077bbaff6722567"
   integrity sha512-BtGUlaaKdC+4epkc8Bg8k9tEwZYNZP8tx2jtCqqhLMhri/BtmUe2OdSZRAKbwKfWWN/CwtqyEUjdNsjwwSld/g==
 
-"@pkmn/types@^2.1.0":
+"@pkmn/types@^2.0.0", "@pkmn/types@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@pkmn/types/-/types-2.1.0.tgz#390c2ba69685208d446dae0efd95ae91f8432201"
   integrity sha512-liqA1fGio93hTZqwfLzWIO++WJTFce4d253r6FkomNTu/0Edso0q9qvNeuud8gvA5UhoF2h6J45mCGemPvZyNg==
+
+"@pkmn/view@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@pkmn/view/-/view-0.4.3.tgz#c5a9ad13d84430bcc9df611a537a5219870cfad4"
+  integrity sha512-YAe01n1c00dOsg5kUbfeBCiv0HsjELo5pmjKtr9XqaH28WKCO4I/g2jTlQ2nJ7VV3SZxjP3+y6jQ5Dt3g6gOWA==
+  dependencies:
+    "@pkmn/protocol" "^0.4.3"
+    "@pkmn/types" "^2.0.0"
 
 "@swc/wasm@^1.2.186":
   version "1.2.210"

@@ -1534,6 +1534,47 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@pkmn/client@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@pkmn/client/-/client-0.4.3.tgz#d7bb3701523e80ae3bc601cb436b3a4885cc3241"
+  integrity sha512-OfkFwJpyNPM6jeJ7+MHTnFndJsc9L8GAB9ukikHAHrv1gfFtASg3Til7+7yqOMsmcoBxL4sQFIk6Mpxm9gi9Tw==
+  dependencies:
+    "@pkmn/data" "^0.5.19"
+    "@pkmn/protocol" "^0.4.3"
+
+"@pkmn/data@^0.5.19", "@pkmn/data@^0.5.23":
+  version "0.5.23"
+  resolved "https://registry.yarnpkg.com/@pkmn/data/-/data-0.5.23.tgz#4bf80a055bb5a186bd04ceabbb21bc9cb2a7cbdd"
+  integrity sha512-6qmS5d3u6ef+J4nrurnJMc1CAKd6KJkF9c71VN8DcVVcIIV/HpcTYBJzRHMCS6YB4WxjikYOipZySeaOZMniFg==
+  dependencies:
+    "@pkmn/dex-types" "^0.5.23"
+
+"@pkmn/dex-types@^0.5.23":
+  version "0.5.23"
+  resolved "https://registry.yarnpkg.com/@pkmn/dex-types/-/dex-types-0.5.23.tgz#d755330bfacf551ac8c794b99bdcdf9db887c7c1"
+  integrity sha512-rVLY/JicPWriKShVlp6mO2/qaF9zsGZRI+pXKD093yCR3pni59F63laLBZIHRrs+8Bumh0lKJLWWJcS7W1c9Nw==
+  dependencies:
+    "@pkmn/types" "^2.1.0"
+
+"@pkmn/dex@^0.5.23":
+  version "0.5.23"
+  resolved "https://registry.yarnpkg.com/@pkmn/dex/-/dex-0.5.23.tgz#f455487c4e73d8907eb4524ed4b22c54d480ee60"
+  integrity sha512-gyq6vWzYq7Z5fVlr6UaKyG41A0Yk2O4r1EaJDqOrb0jXOyC2t+kszpKD/2JGS3xw1zVC2DszvifMwxB/M8vgTw==
+  dependencies:
+    "@pkmn/dex-types" "^0.5.23"
+
+"@pkmn/img@^0.1.19":
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/@pkmn/img/-/img-0.1.19.tgz#bfdf6be44e7cc5747382365122414bf096877bc3"
+  integrity sha512-0/GWUT1m39LXoid1n08oYFyJcHXCsF0hKMWdfPANuBwFL/0uMsyMr9xAd0uCqMirqBk9B8rgaYEDO4J7C7U2eg==
+
+"@pkmn/protocol@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@pkmn/protocol/-/protocol-0.4.3.tgz#025dfde44d4c49b4abf4ae41bc19e51f6388bd7c"
+  integrity sha512-oJe0pqf7Z/H3vxDTjFr6T4VAVaUtMEuQ+3cOWIMb1b8zfGp/esGRdNyt/GGe/+pbF0OSJXIYH7aioKE4zNh9Dg==
+  dependencies:
+    "@pkmn/types" "^2.0.0"
+
 "@pkmn/randoms@^0.5.23":
   version "0.5.23"
   resolved "https://registry.yarnpkg.com/@pkmn/randoms/-/randoms-0.5.23.tgz#3f5b6eabe26675751b753fdec027a0056ea85426"
@@ -1561,7 +1602,7 @@
   resolved "https://registry.yarnpkg.com/@pkmn/streams/-/streams-1.0.0.tgz#0b9d1189462e7cbcb430fbc53077bbaff6722567"
   integrity sha512-BtGUlaaKdC+4epkc8Bg8k9tEwZYNZP8tx2jtCqqhLMhri/BtmUe2OdSZRAKbwKfWWN/CwtqyEUjdNsjwwSld/g==
 
-"@pkmn/types@^2.1.0":
+"@pkmn/types@^2.0.0", "@pkmn/types@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@pkmn/types/-/types-2.1.0.tgz#390c2ba69685208d446dae0efd95ae91f8432201"
   integrity sha512-liqA1fGio93hTZqwfLzWIO++WJTFce4d253r6FkomNTu/0Edso0q9qvNeuud8gvA5UhoF2h6J45mCGemPvZyNg==

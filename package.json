@@ -4,7 +4,9 @@
   "repository": "https://github.com/rishisek/anchor.git",
   "author": "Rishi Sekhar <rishi.sek@gmail.com>",
   "dependencies": {
+    "@pkmn/protocol": "^0.4.3",
     "@pkmn/sim": "^0.5.23",
+    "@pkmn/view": "^0.4.3",
     "@swc/wasm": "^1.2.186",
     "core-js": "3",
     "express": "^4.18.1",

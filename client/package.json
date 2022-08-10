@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pkmn/client": "^0.4.3",
+    "@pkmn/data": "^0.5.23",
+    "@pkmn/dex": "^0.5.23",
+    "@pkmn/img": "^0.1.19",
     "@pkmn/randoms": "^0.5.23",
     "@pkmn/sim": "^0.5.23",
     "@reduxjs/toolkit": "^1.8.3",
