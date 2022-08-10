@@ -2,8 +2,6 @@ import { Router } from "express";
 import {
   AnyObject,
   BattleStreams,
-  PRNG,
-  PRNGSeed,
   RandomPlayerAI,
   Teams,
   TeamValidator,
@@ -31,6 +29,7 @@ class Player extends BattleStreams.BattlePlayer {
     this.name = name;
     this.socket = socket;
   }
+
   receiveRequest(request: AnyObject) {
     if (request.wait) {
       this.socket.emit("wait");
@@ -151,9 +150,8 @@ export function pick(io: Server) {
     const p1spec = { name: "P1", team: Teams.pack(myTeam) };
     const p2spec = { name: "P2", team: Teams.pack(otherTeam) };
 
-    const streams = BattleStreams.getPlayerStreams(
-      new BattleStreams.BattleStream({ debug: true })
-    );
+    const batStream = new BattleStreams.BattleStream({ debug: true });
+    const streams = BattleStreams.getPlayerStreams(batStream);
 
     const p1 = new Player(p1spec.name, streams.p1, socket);
     const p2 = new RandomPlayerAI(streams.p2, {}, true);
@@ -163,7 +161,7 @@ export function pick(io: Server) {
 
     (async () => {
       for await (const output of streams.omniscient) {
-        console.log(output);
+        socket.emit("stream", output);
       }
     })();
 
