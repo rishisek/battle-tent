@@ -13,6 +13,7 @@ import PartyPokemon from "./PartyPokemon";
 import { ListPoke } from "./listPoke";
 import Weather from "./Weather";
 import Backdrop from "./Backdrop";
+import Sidebar from "./Sidebar";
 
 const Outer = styled.div`
   position: absolute;
@@ -91,6 +92,23 @@ class ClientHandler implements Handler<void> {
 }
 
 const Controls = styled.div``;
+
+const Turn = styled.div`
+  position: absolute;
+  display: block;
+  top: 10px;
+  left: 110px;
+  font-size: 13pt;
+  font-weight: 700;
+  margin: 0;
+  padding: 2px 8px;
+  border: 2px solid #320;
+  border-radius: 6px;
+  color: #320;
+  background: #fcfaf2;
+  opacity: 0.4;
+  left: 110px;
+`;
 
 const addPokemon = (pokemon: Pokemon | null, sideID: "p1" | "p2") => {
   if (pokemon) {
@@ -200,6 +218,9 @@ function PlayScreen() {
               active ? <StatBar pokemon={active} left={350} top={24} /> : null
             )}
           </div>
+          <Sidebar player={battle.p1} />
+          <Sidebar player={battle.p2} right={true} />
+          <Turn>Turn {battle.turn}</Turn>
         </Inner>
       </Outer>
       <Controls>
