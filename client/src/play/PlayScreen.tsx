@@ -12,6 +12,7 @@ import StatBar from "./StatBar";
 import PartyPokemon from "./PartyPokemon";
 import { ListPoke } from "./listPoke";
 import Weather from "./Weather";
+import Backdrop from "./Backdrop";
 
 const Outer = styled.div`
   position: absolute;
@@ -181,6 +182,7 @@ function PlayScreen() {
     <div>
       <Outer>
         <Inner>
+          <Backdrop />
           <Weather type={battle.field.weather} />
           <div>
             <div>
