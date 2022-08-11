@@ -1,9 +1,8 @@
 import { Battle, Pokemon } from "@pkmn/client";
-import { Generations, SideID } from "@pkmn/data";
+import { Generations, Moves, Move } from "@pkmn/data";
 import { Dex } from "@pkmn/dex";
 import { Args, Protocol, Handler, Username } from "@pkmn/protocol";
 import { Icons, Sprites, PokemonSprite } from "@pkmn/img";
-import { Move } from "@pkmn/sim";
 import { SocketContext } from "context/socket";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -14,6 +13,7 @@ import { ListPoke } from "./listPoke";
 import Weather from "./Weather";
 import Backdrop from "./Backdrop";
 import Sidebar from "./Sidebar";
+import MoveButton from "./MoveButton";
 
 const Outer = styled.div`
   position: absolute;
@@ -45,11 +45,8 @@ const Inner = styled.div`
 
 interface MoveSummary {
   move: string;
-  id: string;
   pp: number;
   maxpp: number;
-  target: string;
-  disabled: boolean;
 }
 
 interface ImageProp {
@@ -91,7 +88,13 @@ class ClientHandler implements Handler<void> {
   }
 }
 
-const Controls = styled.div``;
+const Controls = styled.div`
+  position: absolute;
+  top: 370px;
+  left: 0;
+  width: 640px;
+  // background: #eef2f5;
+`;
 
 const Turn = styled.div`
   position: absolute;
@@ -138,6 +141,9 @@ const hpPercent = (condition: string) => {
   return hp / base;
 };
 
+const generations = new Generations(Dex);
+const dexMoves = generations.get(7).moves;
+
 function PlayScreen() {
   const socket = useContext(SocketContext);
   const [moves, setMoves] = useState<MoveSummary[]>([]);
@@ -147,7 +153,7 @@ function PlayScreen() {
   const [selMove, setSelMove] = useState(0);
   const [selPoke, setSelPoke] = useState(1);
 
-  const [battle] = useState(new Battle(new Generations(Dex)));
+  const [battle] = useState(new Battle(generations));
   const [win, setWin] = useState<Username>();
   const [handler] = useState(new ClientHandler(setWin));
 
@@ -169,6 +175,7 @@ function PlayScreen() {
 
   useEffect(() => {
     socket.on("request", (request) => {
+      console.log(request);
       setSide(request.side.pokemon);
       setSwitchLock(false);
       if (!request.forceSwitch) {
@@ -224,21 +231,33 @@ function PlayScreen() {
         </Inner>
       </Outer>
       <Controls>
-        {moveLock
-          ? null
-          : moves.map((move, index) => (
-              <button onClick={() => setSelMove(index + 1)}>{move.move}</button>
-            ))}
-        {switchLock
-          ? null
-          : side?.map((poke, index) => (
-              <PartyPokemon
-                poke={poke}
-                active={index === 0}
-                onClick={() => setSelPoke(index + 1)}
-                hpPercent={hpPercent(poke.condition)}
-              />
-            ))}
+        <div>
+          {moveLock
+            ? null
+            : moves.map((move, index) => {
+                let dexMove = dexMoves.get(move.move);
+                console.log(dexMove);
+                return (
+                  <MoveButton
+                    move={dexMove}
+                    pp={{ pp: move.pp, max: move.maxpp }}
+                    onClick={() => setSelMove(index + 1)}
+                  />
+                );
+              })}
+        </div>
+        <div>
+          {switchLock
+            ? null
+            : side?.map((poke, index) => (
+                <PartyPokemon
+                  poke={poke}
+                  active={index === 0}
+                  onClick={() => setSelPoke(index + 1)}
+                  hpPercent={hpPercent(poke.condition)}
+                />
+              ))}
+        </div>
         {moveLock && switchLock && !win ? "Waiting" : null}
         {win ? `${win} has won the battle!` : null}
       </Controls>
