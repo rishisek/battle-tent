@@ -2,6 +2,7 @@ import { ListPoke } from "./listPoke";
 import { Icons } from "@pkmn/img";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import PokeIcon from "./PokeIcon";
 
 const HPBar = styled.span<{ width: number }>`
   position: absolute;
@@ -60,14 +61,10 @@ const Wrapper = styled.button`
       : ""}
 `;
 
-const PIcon = styled.span`
-  display: inline-block;
-  width: 40px;
-  height: 30px;
+const StyledIcon = styled(PokeIcon)`
   float: left;
   margin: -6px -3px -6px -4px;
   opacity: 0.8;
-  image-rendering: pixelated;
 `;
 
 interface IProps {
@@ -77,17 +74,13 @@ interface IProps {
   hpPercent: number;
 }
 function PartyPokemon({ poke, active, onClick, hpPercent }: IProps) {
-  const [iconCSS, setIconCSS] = useState<{ [attr: string]: string }>({});
-  useEffect(() => {
-    let name = poke.details.split(",")[0];
-    setIconCSS(Icons.getPokemon(name)?.css);
-  }, [poke]);
   return (
     <Wrapper
       disabled={poke.condition.endsWith(" fnt") || active}
       onClick={poke.condition.endsWith(" fnt") || active ? undefined : onClick}
     >
-      <PIcon style={iconCSS} /> {poke.details.split(",")[0]}
+      <StyledIcon name={poke.details.split(",")[0]} fainted={poke.fainted} />{" "}
+      {poke.details.split(",")[0]}
       <HPBar width={Math.round(hpPercent * 92)}>
         <span />
       </HPBar>
