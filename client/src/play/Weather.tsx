@@ -59,7 +59,7 @@ interface IProps {
   type: WeatherName | undefined;
 }
 function Weather({ type }: IProps) {
-  if (type) return <Wrapper {...weathToCol[type]}></Wrapper>;
+  if (type) return <Wrapper {...weathToCol[type]} />;
   return null;
 }
 
