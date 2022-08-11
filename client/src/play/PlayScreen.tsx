@@ -11,6 +11,7 @@ import styled from "styled-components";
 import StatBar from "./StatBar";
 import PartyPokemon from "./PartyPokemon";
 import { ListPoke } from "./listPoke";
+import Weather from "./Weather";
 
 const Outer = styled.div`
   position: absolute;
@@ -180,6 +181,7 @@ function PlayScreen() {
     <div>
       <Outer>
         <Inner>
+          <Weather type={battle.field.weather} />
           <div>
             <div>
               {battle.p2.active.map((active) => addPokemon(active, "p2"))}
