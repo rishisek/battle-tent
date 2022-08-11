@@ -58,23 +58,33 @@ const PP = styled.small`
   color: #777;
 `;
 
+export interface MoveSummary {
+  move: string;
+  pp: number;
+  maxpp: number;
+  disabled: boolean;
+}
+
 function MoveButton({
-  move,
-  pp,
+  dexMove,
+  requestMove,
   onClick,
 }: {
-  move: Move | undefined;
-  pp: { pp: number; max: number };
+  dexMove: Move | undefined;
+  requestMove: MoveSummary;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 }) {
-  if (!move) return null;
+  if (!dexMove) return null;
   return (
-    <Wrapper {...typeToCol[move.type]} onClick={onClick}>
-      {move.realMove || move.name}
+    <Wrapper
+      {...typeToCol[dexMove.type]}
+      onClick={requestMove.disabled ? undefined : onClick}
+    >
+      {dexMove.realMove || dexMove.name}
       <br />
-      <Type>{move.type}</Type>
+      <Type>{dexMove.type}</Type>
       <PP>
-        {pp.pp}/{pp.max}
+        {requestMove.pp}/{requestMove.maxpp}
       </PP>
       &nbsp;
     </Wrapper>

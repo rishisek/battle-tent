@@ -13,7 +13,7 @@ import { ListPoke } from "./listPoke";
 import Weather from "./Weather";
 import Backdrop from "./Backdrop";
 import Sidebar from "./Sidebar";
-import MoveButton from "./MoveButton";
+import MoveButton, { MoveSummary } from "./MoveButton";
 
 const Outer = styled.div`
   position: absolute;
@@ -42,12 +42,6 @@ const Inner = styled.div`
   width: 640px;
   height: 360px;
 `;
-
-interface MoveSummary {
-  move: string;
-  pp: number;
-  maxpp: number;
-}
 
 interface ImageProp {
   sprite: PokemonSprite;
@@ -239,8 +233,8 @@ function PlayScreen() {
                 console.log(dexMove);
                 return (
                   <MoveButton
-                    move={dexMove}
-                    pp={{ pp: move.pp, max: move.maxpp }}
+                    dexMove={dexMove}
+                    requestMove={move}
                     onClick={() => setSelMove(index + 1)}
                   />
                 );
