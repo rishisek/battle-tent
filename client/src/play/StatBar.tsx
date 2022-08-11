@@ -92,14 +92,16 @@ function StatBar({ pokemon, top, left }: IProp) {
   return (
     <Wrapper style={{ top: `${top}px`, left: `${left}px` }}>
       <Details>
-        {pokemon.name}
-        <img
-          src={`https://play.pokemonshowdown.com/fx/gender-${pokemon.gender.toLowerCase()}.png`}
-          alt={pokemon.gender}
-          width="7"
-          height="10"
-          className="pixelated"
-        ></img>
+        {pokemon.name}&nbsp;
+        {pokemon.gender === "N" ? null : (
+          <img
+            src={`https://play.pokemonshowdown.com/fx/gender-${pokemon.gender.toLowerCase()}.png`}
+            alt={pokemon.gender}
+            width="7"
+            height="10"
+            className="pixelated"
+          ></img>
+        )}
         <small>L{pokemon.level}</small>
       </Details>
       <HPBar>
