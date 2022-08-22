@@ -4,6 +4,7 @@
   "repository": "https://github.com/rishisek/anchor.git",
   "author": "Rishi Sekhar <rishi.sek@gmail.com>",
   "dependencies": {
+    "@kubernetes/client-node": "^0.17.0",
     "@pkmn/protocol": "^0.4.3",
     "@pkmn/sim": "^0.5.23",
     "@pkmn/view": "^0.4.3",
