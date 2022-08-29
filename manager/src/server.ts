@@ -14,4 +14,21 @@ k8sApi.listNamespacedPod("default").then((res) => {
 });
 
 // Example of instantiating a Pod object.
-const pod = {} as k8s.V1Pod;
+const pod = {
+  kind: "Pod",
+  apiVersion: "v1",
+  metadata: { name: "foo", labels: { app: "foo" } },
+  spec: {
+    containers: [
+      {
+        name: "foo",
+        image: "hashicorp/http-echo:0.2.3",
+        args: ["-text=foo"],
+        ports: [{ containerPort: 5678 }],
+      },
+    ],
+  },
+} as k8s.V1Pod;
+const namespace = "default";
+k8sApi.createNamespacedPod(namespace, pod);
+console.log(pod);

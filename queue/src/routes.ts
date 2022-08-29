@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { commandOptions, createClient } from "redis";
+import { User, validate } from "./user";
 
 const routes = Router();
 
@@ -10,14 +11,6 @@ routes.get("/", (req, res) => {
 const redisClient = createClient();
 redisClient.on("error", (err) => console.log("Redis Client Error", err));
 redisClient.connect();
-
-interface User {
-  id: number;
-}
-function validate(user: User) {
-  if (!user) return false;
-  return true;
-}
 
 routes.post("/join", async (req, res) => {
   const user = req.body as User;

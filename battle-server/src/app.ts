@@ -1,8 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import ISocket from "./socket";
-import routes, { pick } from "./routes";
+import routes from "./routes";
 import { runInThisContext } from "vm";
 
 class App {
@@ -16,26 +15,12 @@ class App {
 
     this.io = new Server(this.server, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: "*",
       },
     });
     this.app.set("socketio", this.io);
     this.app.use(routes);
     this.middlewares();
-    this.socket_routines();
-  }
-
-  socket_routines() {
-    this.io.on("connection", (socket: ISocket) => {
-      console.log("con");
-
-      // notify users upon disconnection
-      socket.on("disconnect", async () => {
-        const matchingSockets = await this.io.in(socket.userID).allSockets();
-        const isDisconnected = matchingSockets.size === 0;
-      });
-    });
-    pick(this.io);
   }
 
   middlewares() {
