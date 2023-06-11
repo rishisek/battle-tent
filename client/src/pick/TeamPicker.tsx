@@ -25,6 +25,7 @@ const PokeList = styled.div`
 function TeamPicker() {
   let [pokeSets, setPokeSets] = useState<PokemonSet[]>([]);
   let confirm = useAppSelector((state) => state.pick.confirm);
+  let username = useAppSelector((state) => state.user.username);
   let [selecteds, setSelecteds] = useState([
     false,
     false,
@@ -47,7 +48,7 @@ function TeamPicker() {
     if (confirm) {
       let team = pokeSets.filter((set, index) => selecteds[index]);
       if (team.length === 3) {
-        socket.emit("pick", team);
+        socket.emit("pick", {name: username, team});
         dispatch(ready());
       } else {
         dispatch(pick());

@@ -1,6 +1,5 @@
 import { AnyObject, BattleStreams, PokemonSet, Teams } from "@pkmn/sim";
 import { ObjectReadWriteStream } from "@pkmn/streams";
-import { model, Schema } from "mongoose";
 import { Socket } from "socket.io";
 
 export interface BattleInfo {
@@ -8,7 +7,7 @@ export interface BattleInfo {
   p2: User;
 }
 
-interface User {
+export interface User {
   name: string;
   team: PokemonSet[];
 }
@@ -32,24 +31,33 @@ export class Battle {
   }
 }
 
-const BattleSchema = new Schema<Battle>({});
-
-export const BattleModel = model<Battle>("Battle", BattleSchema);
-
 export class Player extends BattleStreams.BattlePlayer {
   private socket;
-  constructor(playerStream: ObjectReadWriteStream<string>, socket: Socket) {
+  private lastRequest: AnyObject;
+  public p2;
+
+  constructor(playerStream: ObjectReadWriteStream<string>, socket: Socket, p2: boolean = false) {
     super(playerStream, false);
     this.socket = socket;
+    this.lastRequest = {};
+    this.p2 = p2;
+  }
+
+  setSocket(newSocket: Socket){
+    this.socket = newSocket;
   }
 
   receiveRequest(request: AnyObject) {
+    this.lastRequest = request;
     if (request.wait) {
       this.socket.emit("wait");
       return;
     }
     this.socket.emit("request", request);
-    this.socket.on("response", (response) => {
+    this.socket.on("response", response => this.handleResponse(response));
+  }
+
+  private handleResponse(response: string) {
       try {
         this.choose(response);
       } catch (err) {
@@ -57,6 +65,13 @@ export class Player extends BattleStreams.BattlePlayer {
       }
       this.socket.removeAllListeners("response");
       this.socket.emit("wait");
-    });
+    }
+
+  rejoin() {
+    this.receiveRequest(this.lastRequest);
+  }
+
+  flipClient(){
+    this.socket.emit("flip");
   }
 }

@@ -3,7 +3,6 @@ import { AnyObject, BattleStreams } from "@pkmn/sim";
 import { PokemonSet } from "@pkmn/types";
 import { Server, Socket } from "socket.io";
 import { Battle, validateBattleInfo } from "./battle";
-import store from "./store";
 
 const routes = Router();
 
@@ -16,7 +15,6 @@ routes.post("/new", (req, res) => {
   if (!validateBattleInfo(info))
     return res.status(400).send("Invalid battle info");
   const battle = new Battle(req.body);
-  store.addBattle("0", battle);
 });
 
 export default routes;

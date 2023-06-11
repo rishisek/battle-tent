@@ -1,11 +1,11 @@
-import { Battle, Pokemon } from "@pkmn/client";
+import { Battle, Pokemon, Side } from "@pkmn/client";
 import { Generations, Moves, Move } from "@pkmn/data";
 import { Dex } from "@pkmn/dex";
 import { Args, Protocol, Handler, Username } from "@pkmn/protocol";
 import { Icons, Sprites, PokemonSprite } from "@pkmn/img";
 import { SocketContext } from "context/socket";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import StatBar from "./StatBar";
 import PartyPokemon from "./PartyPokemon";
@@ -14,6 +14,7 @@ import Weather from "./Weather";
 import Backdrop from "./Backdrop";
 import Sidebar from "./Sidebar";
 import MoveButton, { MoveSummary } from "./MoveButton";
+import { useAppSelector } from "app/hooks";
 
 const Outer = styled.div`
   position: absolute;
@@ -138,6 +139,41 @@ const hpPercent = (condition: string) => {
 const generations = new Generations(Dex);
 const dexMoves = generations.get(7).moves;
 
+function Screen({ p1, p2 }: { p1: Side; p2: Side }) {
+  return (
+    <>
+      <div>
+        <div>{p2.active.map((active) => addPokemon(active, "p2"))}</div>
+        <div>{p1.active.map((active) => addPokemon(active, "p1"))}</div>
+      </div>
+      <div>
+        {p1.active.map((active) =>
+          active ? <StatBar pokemon={active} left={130} top={120} /> : null
+        )}
+        {p2.active.map((active) =>
+          active ? <StatBar pokemon={active} left={350} top={24} /> : null
+        )}
+      </div>
+    </>
+  );
+}
+
+//create your forceUpdate hook
+function useForceUpdate() {
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue((value) => value + 1); // update state to force render
+  // A function that increment 👆🏻 the previous state like here
+  // is better than directly setting `setValue(value + 1)`
+}
+
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
+}
+
 function PlayScreen() {
   const socket = useContext(SocketContext);
   const [moves, setMoves] = useState<MoveSummary[]>([]);
@@ -147,9 +183,20 @@ function PlayScreen() {
   const [selMove, setSelMove] = useState(0);
   const [selPoke, setSelPoke] = useState(1);
 
-  const [battle] = useState(new Battle(generations));
+  const [battle, setBattle] = useState(new Battle(generations));
   const [win, setWin] = useState<Username>();
   const [handler] = useState(new ClientHandler(setWin));
+
+  const [flip, setFlip] = useState(false);
+  const forceUpdate = useForceUpdate();
+  const query = useQuery();
+  let username = useAppSelector((state) => state.user.username);
+
+  useEffect(() => {
+    if (query.has("rejoin") && username) {
+      socket.emit("rejoin-battle", username);
+    }
+  }, [socket]);
 
   useEffect(() => {
     if (selMove > 0) {
@@ -169,7 +216,6 @@ function PlayScreen() {
 
   useEffect(() => {
     socket.on("request", (request) => {
-      console.log(request);
       setSide(request.side.pokemon);
       setSwitchLock(false);
       if (!request.forceSwitch) {
@@ -182,20 +228,28 @@ function PlayScreen() {
       setSwitchLock(true);
     });
     socket.on("stream", (output) => {
+      let newBattle = battle;
       for (const line of output.split("\n")) {
+        console.log(line);
         const { args, kwArgs } = Protocol.parseBattleLine(line);
-        battle.add(args, kwArgs);
+        newBattle.add(args, kwArgs);
         const key = Protocol.key(args);
         if (key && key in handler) (handler as any)[key](args, kwArgs);
       }
-      battle.update();
+      newBattle.update();
+
+      forceUpdate();
+    });
+    socket.on("flip", () => {
+      setFlip(true);
     });
     return () => {
       socket.off("request");
       socket.off("wait");
-      socket.off("battle");
+      socket.off("stream");
+      socket.off("flip");
     };
-  }, [socket, battle, handler]);
+  }, [socket]);
 
   return (
     <div>
@@ -203,24 +257,12 @@ function PlayScreen() {
         <Inner>
           <Backdrop />
           <Weather type={battle.field.weather} />
-          <div>
-            <div>
-              {battle.p2.active.map((active) => addPokemon(active, "p2"))}
-            </div>
-            <div>
-              {battle.p1.active.map((active) => addPokemon(active, "p1"))}
-            </div>
-          </div>
-          <div>
-            {battle.p1.active.map((active) =>
-              active ? <StatBar pokemon={active} left={130} top={120} /> : null
-            )}
-            {battle.p2.active.map((active) =>
-              active ? <StatBar pokemon={active} left={350} top={24} /> : null
-            )}
-          </div>
-          <Sidebar player={battle.p1} />
-          <Sidebar player={battle.p2} right={true} />
+          <Screen
+            p1={flip ? battle.p2 : battle.p1}
+            p2={flip ? battle.p1 : battle.p2}
+          />
+          <Sidebar player={battle.p1} right={flip} />
+          <Sidebar player={battle.p2} right={!flip} />
           <Turn>Turn {battle.turn}</Turn>
         </Inner>
       </Outer>
@@ -230,12 +272,16 @@ function PlayScreen() {
             ? null
             : moves.map((move, index) => {
                 let dexMove = dexMoves.get(move.move);
-                console.log(dexMove);
+                // console.log(dexMove);
                 return (
                   <MoveButton
                     dexMove={dexMove}
                     requestMove={move}
-                    onClick={() => setSelMove(index + 1)}
+                    onClick={() => {
+                      console.log("clicked", index + 1);
+
+                      setSelMove(index + 1);
+                    }}
                   />
                 );
               })}

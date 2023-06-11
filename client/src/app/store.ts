@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import pickReducer from "../pick/pickSlice";
+import pickReducer from "pick/pickSlice";
+import userReducer from "start/userSlice";
 
 const store = configureStore({
   reducer: {
     pick: pickReducer,
+    user: userReducer
   },
 });
 
